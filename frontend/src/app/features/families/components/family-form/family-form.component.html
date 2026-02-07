@@ -1,1 +1,235 @@
-<p>family-form works!</p>
+<!-- features/families/components/family-form/family-form.component.html -->
+<div class="family-form-container">
+  
+  <!-- En-tête -->
+  <div class="form-header">
+    <button class="back-btn" (click)="onCancel()" [disabled]="isLoading">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <h1>
+      <i class="fas fa-users"></i>
+      {{ isEditMode ? 'Modifier la Famille' : 'Nouvelle Famille' }}
+    </h1>
+    <div class="header-actions">
+      <span *ngIf="isLoading" class="loading-text">
+        <i class="fas fa-spinner fa-spin"></i> 
+        {{ isEditMode ? 'Chargement...' : 'Traitement...' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+  </div>
+  
+  <div *ngIf="successMessage" class="alert alert-success">
+    <i class="fas fa-check-circle"></i> {{ successMessage }}
+  </div>
+
+  <!-- Formulaire -->
+  <form [formGroup]="familyForm" (ngSubmit)="onSubmit()" class="family-form">
+    
+    <!-- Informations de base -->
+    <div class="form-section">
+      <h2><i class="fas fa-info-circle"></i> Informations de Base</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="headOfFamily" class="form-label">
+            Chef de Famille *
+          </label>
+          <input
+            type="text"
+            id="headOfFamily"
+            formControlName="headOfFamily"
+            [class.is-invalid]="headOfFamily?.invalid && headOfFamily?.touched"
+            class="form-control"
+            placeholder="Nom et prénom du chef de famille">
+          <div *ngIf="headOfFamily?.invalid && headOfFamily?.touched" class="invalid-feedback">
+            <div *ngIf="headOfFamily?.errors?.['required']">Ce champ est obligatoire</div>
+            <div *ngIf="headOfFamily?.errors?.['minlength']">
+              Minimum 2 caractères
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone" class="form-label">Téléphone *</label>
+          <input
+            type="tel"
+            id="phone"
+            formControlName="phone"
+            [class.is-invalid]="phone?.invalid && phone?.touched"
+            class="form-control"
+            placeholder="Ex: 12345678">
+          <div *ngIf="phone?.invalid && phone?.touched" class="invalid-feedback">
+            <div *ngIf="phone?.errors?.['required']">Ce champ est obligatoire</div>
+            <div *ngIf="phone?.errors?.['pattern']">
+              8 chiffres requis
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="address" class="form-label">Adresse Complète *</label>
+        <textarea
+          id="address"
+          formControlName="address"
+          [class.is-invalid]="address?.invalid && address?.touched"
+          class="form-control"
+          rows="3"
+          placeholder="Rue, Ville, Code postal..."></textarea>
+        <div *ngIf="address?.invalid && address?.touched" class="invalid-feedback">
+          L'adresse est obligatoire
+        </div>
+      </div>
+    </div>
+
+    <!-- Géolocalisation (optionnelle) -->
+    <div class="form-section">
+      <h2><i class="fas fa-map-marker-alt"></i> Géolocalisation (Optionnel)</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="latitude" class="form-label">Latitude</label>
+          <input
+            type="number"
+            id="latitude"
+            formControlName="latitude"
+            class="form-control"
+            step="0.0001"
+            placeholder="Ex: 36.8065">
+        </div>
+        
+        <div class="form-group">
+          <label for="longitude" class="form-label">Longitude</label>
+          <input
+            type="number"
+            id="longitude"
+            formControlName="longitude"
+            class="form-control"
+            step="0.0001"
+            placeholder="Ex: 10.1815">
+        </div>
+      </div>
+    </div>
+
+    <!-- Situation familiale -->
+    <div class="form-section">
+      <h2><i class="fas fa-home"></i> Situation Familiale</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="familySize" class="form-label">Nombre de Membres *</label>
+          <input
+            type="number"
+            id="familySize"
+            formControlName="familySize"
+            [class.is-invalid]="familySize?.invalid && familySize?.touched"
+            class="form-control"
+            min="1"
+            max="20">
+          <div *ngIf="familySize?.invalid && familySize?.touched" class="invalid-feedback">
+            <div *ngIf="familySize?.errors?.['required']">Ce champ est obligatoire</div>
+            <div *ngIf="familySize?.errors?.['min']">Minimum 1 membre</div>
+            <div *ngIf="familySize?.errors?.['max']">Maximum 20 membres</div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="priorityLevel" class="form-label">Niveau de Priorité *</label>
+          <select
+            id="priorityLevel"
+            formControlName="priorityLevel"
+            [class.is-invalid]="priorityLevel?.invalid && priorityLevel?.touched"
+            class="form-select">
+            <option *ngFor="let level of priorityLevels" [value]="level">
+              {{ getPriorityLabel(level) }}
+            </option>
+          </select>
+          <div *ngIf="priorityLevel?.invalid && priorityLevel?.touched" class="invalid-feedback">
+            La priorité est obligatoire
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Besoins et notes -->
+    <div class="form-section">
+      <h2><i class="fas fa-clipboard-list"></i> Besoins et Informations</h2>
+      
+      <div class="form-group">
+        <label for="needsDescription" class="form-label">Description des Besoins</label>
+        <textarea
+          id="needsDescription"
+          formControlName="needsDescription"
+          class="form-control"
+          rows="4"
+          placeholder="Décrivez les besoins spécifiques de la famille..."></textarea>
+        <small class="form-text text-muted">
+          Cette information aidera à planifier l'aide appropriée.
+        </small>
+      </div>
+      
+      <div class="form-group">
+        <label for="notes" class="form-label">Notes Internes</label>
+        <textarea
+          id="notes"
+          formControlName="notes"
+          class="form-control"
+          rows="3"
+          placeholder="Notes supplémentaires, observations..."></textarea>
+      </div>
+    </div>
+
+    <!-- Types d'aide fréquents -->
+    <div class="form-section">
+      <h2><i class="fas fa-hand-holding-heart"></i> Types d'Aide Fréquents</h2>
+      
+      <div class="aid-types-container">
+        <div class="form-text text-muted mb-3">
+          Sélectionnez les types d'aide dont cette famille a fréquemment besoin :
+        </div>
+        
+        <div class="aid-types-grid">
+          <div *ngFor="let aidType of frequentAidTypes" class="aid-type-checkbox">
+            <input
+              type="checkbox"
+              [id]="'aid-type-' + aidType.id"
+              [checked]="isAidTypeSelected(aidType.id)"
+              (change)="onAidTypeChange($event, aidType.id)"
+              class="form-check-input">
+            <label [for]="'aid-type-' + aidType.id" class="form-check-label">
+              {{ aidType.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boutons d'action -->
+    <div class="form-actions">
+      <button type="button" (click)="onCancel()" class="btn btn-secondary" [disabled]="isLoading">
+        <i class="fas fa-times"></i> Annuler
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="familyForm.invalid || isLoading">
+        <i *ngIf="!isLoading" class="fas fa-save"></i>
+        <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+        {{ isEditMode ? 'Mettre à jour' : 'Créer la Famille' }}
+      </button>
+    </div>
+
+    <!-- Debug (optionnel - à désactiver en production) -->
+    <div class="debug-info" *ngIf="false">
+      <h3>Debug - Données du formulaire:</h3>
+      <pre>{{ familyForm.value | json }}</pre>
+      <p>Formulaire valide: {{ familyForm.valid }}</p>
+      <p>Formulaire modifié: {{ familyForm.dirty }}</p>
+    </div>
+  </form>
+</div>

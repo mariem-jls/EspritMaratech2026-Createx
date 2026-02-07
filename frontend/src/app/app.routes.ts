@@ -22,6 +22,16 @@ export const routes: Routes = [
     loadChildren: () => import('./features/families/families.routes').then(m => m.familiesRoutes)
   },
   {
+    path: 'families/new',
+    loadComponent: () => import('./features/families/components/family-form/family-form.component')
+      .then(m => m.FamilyFormComponent)
+  },
+  {
+    path: 'families/:id/edit',
+    loadComponent: () => import('./features/families/components/family-form/family-form.component')
+      .then(m => m.FamilyFormComponent)
+  },
+  {
     path: 'users',
     canActivate: [authGuard],
     loadChildren: () => import('./features/users/users.routes').then(m => m.usersRoutes)
