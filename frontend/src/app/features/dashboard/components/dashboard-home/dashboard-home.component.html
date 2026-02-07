@@ -16,8 +16,8 @@
         <span>Familles</span>
       </a>
       <a routerLink="/aid-types" class="nav-item" routerLinkActive="active">
-        <i class="fas fa-users"></i>
-        <span>Aids</span>
+        <i class="fas fa-box"></i>
+        <span>Aides</span>
       </a>
       <a routerLink="/donations" class="nav-item" routerLinkActive="active">
         <i class="fas fa-donate"></i>
@@ -60,7 +60,7 @@
       <div class="topbar-right">
         <div class="date-display">
           <i class="fas fa-calendar-alt"></i>
-          <span>{{ currentDate | date:'EEEE d MMMM yyyy' }}</span>
+          <span>{{ getFormattedDate() }}</span>
         </div>
         
         <button class="notification-btn" aria-label="Notifications">
@@ -81,15 +81,15 @@
       <div class="dashboard-header">
         <div>
           <h1 class="dashboard-title">Bonjour 👋</h1>
-          <p class="dashboard-subtitle">Bienvenue sur votre tableau de bord OMNIA</p>
+          <p class="dashboard-subtitle">Bienvenue sur votre tableau de bord OMNIA Familles</p>
         </div>
         <div class="header-stats">
           <div class="header-stat">
-            <span class="stat-value">{{ totalFamilies | number }}</span>
+            <span class="stat-value">{{ totalFamilies }}</span>
             <span class="stat-label">Familles aidées</span>
           </div>
           <div class="header-stat">
-            <span class="stat-value">{{ totalDonations | currency:'TND':'symbol':'1.0-0' }}</span>
+            <span class="stat-value">{{ totalDonations | currency:'TND' }}</span>
             <span class="stat-label">Dons collectés</span>
           </div>
         </div>
@@ -97,8 +97,68 @@
 
       <!-- Statistiques -->
       <div class="stats-grid">
-        <div *ngFor="let stat of statistics" class="stat-card-wrapper">
-          <app-stats-card [stat]="stat"></app-stats-card>
+        <div class="stat-card">
+          <div class="stat-card-content">
+            <div class="stat-icon primary">
+              <i class="fas fa-hand-holding-usd"></i>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-title">Total des Dons</h3>
+              <p class="stat-value">125,30 DT</p>
+              <div class="stat-trend positive">
+                <i class="fas fa-arrow-up"></i>
+                <span>+12.5% vs mois dernier</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-card-content">
+            <div class="stat-icon success">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-title">Familles Assistées</h3>
+              <p class="stat-value">248</p>
+              <div class="stat-trend positive">
+                <i class="fas fa-arrow-up"></i>
+                <span>+8.3% (8 nouvelles)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-card-content">
+            <div class="stat-icon warning">
+              <i class="fas fa-box"></i>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-title">Aide Distribuée</h3>
+              <p class="stat-value">892 Colis</p>
+              <div class="stat-trend positive">
+                <i class="fas fa-arrow-up"></i>
+                <span>+15.2% cette semaine</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-card-content">
+            <div class="stat-icon info">
+              <i class="fas fa-hands-helping"></i>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-title">Bénévoles Actifs</h3>
+              <p class="stat-value">56</p>
+              <div class="stat-trend positive">
+                <i class="fas fa-arrow-up"></i>
+                <span>+5.6% (5 nouveaux)</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -124,7 +184,7 @@
             <div class="chart-footer">
               <div class="chart-summary">
                 <span class="summary-label">Total annuel:</span>
-                <span class="summary-value">{{ annualTotal | currency:'TND':'symbol':'1.0-0' }}</span>
+                <span class="summary-value">{{ annualTotal | currency:'TND' }}</span>
               </div>
               <div class="chart-trend">
                 <span class="trend-indicator positive">
@@ -139,14 +199,14 @@
           <div class="charts-row">
             <div class="small-chart-card">
               <h4>Distribution par Type</h4>
-              <div class="mini-chart" style="height: 200px;">
-                <!-- Mini chart placeholder -->
+              <div class="mini-chart-container">
+                <canvas id="distributionChart"></canvas>
               </div>
             </div>
             <div class="small-chart-card">
               <h4>Taux de Conversion</h4>
-              <div class="mini-chart" style="height: 200px;">
-                <!-- Mini chart placeholder -->
+              <div class="mini-chart-container">
+                <canvas id="conversionChart"></canvas>
               </div>
             </div>
           </div>
@@ -199,10 +259,10 @@
             </div>
             
             <div class="events-list">
-              <div *ngFor="let event of upcomingEvents" class="event-item">
+              <div class="event-item" *ngFor="let event of upcomingEvents">
                 <div class="event-date">
-                  <span class="event-day">{{ event.date | date:'dd' }}</span>
-                  <span class="event-month">{{ event.date | date:'MMM' }}</span>
+                  <span class="event-day">{{ formatDay(event.date) }}</span>
+                  <span class="event-month">{{ formatMonth(event.date) }}</span>
                 </div>
                 <div class="event-details">
                   <h4 class="event-title">{{ event.title }}</h4>
@@ -216,7 +276,7 @@
                       {{ event.location }}
                     </span>
                   </div>
-                  <span class="event-status" [class]="event.status">
+                  <span class="event-status" [ngClass]="event.status">
                     {{ event.status === 'confirmed' ? 'Confirmé' : 'Planifié' }}
                   </span>
                 </div>
