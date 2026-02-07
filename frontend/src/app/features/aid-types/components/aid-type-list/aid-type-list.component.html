@@ -1,0 +1,90 @@
+<!-- features/aid-types/components/aid-type-list/aid-type-list.component.html -->
+<div class="aid-type-list">
+  <div class="header">
+    <h2>Gestion des Types d'Aide</h2>
+    <a routerLink="new" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Nouveau Type d'Aide
+    </a>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading">
+    <p>Chargement des types d'aide...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage && !isLoading" class="alert alert-danger">
+    {{ errorMessage }}
+    <button (click)="loadAidTypes()" class="btn btn-sm btn-outline-danger">
+      Réessayer
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <!-- Statistiques -->
+    <div class="stats">
+      <span class="badge bg-success">{{ activeAidTypes.length }} Actifs</span>
+      <span class="badge bg-secondary">{{ inactiveAidTypes.length }} Inactifs</span>
+      <span class="badge bg-info">{{ aidTypes.length }} Total</span>
+    </div>
+
+    <!-- Tableau -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Catégorie</th>
+          <th>Unité</th>
+          <th>Quantité par défaut</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let aidType of aidTypes">
+          <td>
+            <strong>{{ aidType.name }}</strong>
+            <small class="text-muted d-block" *ngIf="aidType.description">
+              {{ aidType.description }}
+            </small>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'bg-primary': aidType.category === 'Food',
+              'bg-danger': aidType.category === 'Medicine',
+              'bg-warning': aidType.category === 'Clothing',
+              'bg-info': aidType.category === 'Hygiene',
+              'bg-success': aidType.category === 'Shelter'
+            }">
+              {{ aidType.category }}
+            </span>
+          </td>
+          <td>{{ aidType.unit }}</td>
+          <td>{{ aidType.defaultQuantity }}</td>
+          <td>
+            <span [class]="aidType.active ? 'text-success' : 'text-secondary'">
+              {{ aidType.active ? 'Actif' : 'Inactif' }}
+            </span>
+          </td>
+          <td>
+            <div class="btn-group btn-group-sm">
+              <a [routerLink]="['edit', aidType.id]" class="btn btn-outline-primary">
+                <i class="fas fa-edit"></i>
+              </a>
+              <button (click)="deleteAidType(aidType.id)" class="btn btn-outline-danger">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Message vide -->
+    <div *ngIf="aidTypes.length === 0" class="empty-state">
+      <p>Aucun type d'aide trouvé.</p>
+      <a routerLink="new" class="btn btn-primary">Créer le premier type d'aide</a>
+    </div>
+  </div>
+</div>

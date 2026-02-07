@@ -1,0 +1,40 @@
+/* features/aid-types/components/aid-type-list/aid-type-list.component.css */
+.aid-type-list {
+  padding: 20px;
+}
+
+.aid-type-list .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.aid-type-list .stats {
+  margin-bottom: 15px;
+}
+
+.aid-type-list .stats .badge {
+  margin-right: 10px;
+  font-size: 0.9rem;
+  padding: 5px 10px;
+}
+
+.aid-type-list .table th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.aid-type-list .empty-state {
+  text-align: center;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+}

@@ -1,0 +1,59 @@
+/* features/aid-types/components/aid-type-card/aid-type-card.component.css */
+.aid-type-card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  transition: all 0.2s ease;
+}
+
+.aid-type-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.aid-type-card.selectable {
+  cursor: pointer;
+}
+
+.aid-type-card.selected {
+  border-color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.aid-type-card .card-header {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.aid-type-card .category-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e9ecef;
+}
+
+.aid-type-card .card-body {
+  padding: 15px;
+}
+
+.aid-type-card .details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.aid-type-card .detail-item {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.aid-type-card .card-footer {
+  background-color: transparent;
+  border-top: 1px solid #dee2e6;
+  padding: 10px;
+}

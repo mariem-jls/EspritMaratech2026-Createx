@@ -27,6 +27,17 @@ export const routes: Routes = [
     loadChildren: () => import('./features/users/users.routes').then(m => m.usersRoutes)
   },
   {
+    path: 'aid-types',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/aid-types/aid-types.module')
+      .then(m => m.AidTypesModule)
+  },
+  //{
+  //  path: 'families',
+  //  loadChildren: () => import('./features/families/families.module')
+   //   .then(m => m.FamiliesModule)
+  //},
+  {
     path: '**',
     redirectTo: '/auth/login'
   }

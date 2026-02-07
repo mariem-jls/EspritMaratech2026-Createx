@@ -1,0 +1,69 @@
+<!-- features/aid-types/components/aid-type-card/aid-type-card.component.html -->
+<div class="aid-type-card" [class.selected]="selected" [class.selectable]="selectable">
+  <div class="card-header" (click)="selectable && onToggleSelect()">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <!-- Icône de catégorie -->
+        <div class="category-icon me-2">
+          <i class="fas {{ getCategoryIcon(aidType.category) }} fa-lg"
+             [class.text-white]="!aidType.active"></i>
+        </div>
+        
+        <!-- Nom et catégorie -->
+        <div>
+          <h5 class="card-title mb-0">
+            {{ aidType.name }}
+            <span *ngIf="!aidType.active" class="badge bg-secondary ms-2">Inactif</span>
+          </h5>
+          <span class="badge" [ngClass]="'bg-' + getCategoryColor(aidType.category)">
+            {{ aidType.category }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Checkbox pour sélection -->
+      <div *ngIf="selectable" class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [checked]="selected"
+          (change)="onToggleSelect()">
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <!-- Description -->
+    <p class="card-text" *ngIf="aidType.description">
+      {{ aidType.description }}
+    </p>
+    
+    <!-- Détails -->
+    <div class="details">
+      <div class="detail-item">
+        <i class="fas fa-balance-scale me-1"></i>
+        <strong>Unité:</strong> {{ aidType.unit }}
+      </div>
+      <div class="detail-item">
+        <i class="fas fa-boxes me-1"></i>
+        <strong>Quantité par défaut:</strong> {{ aidType.defaultQuantity }}
+      </div>
+      <div *ngIf="aidType.icon" class="detail-item">
+        <i class="fas fa-icons me-1"></i>
+        <strong>Icône:</strong> {{ aidType.icon }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="card-footer" *ngIf="showActions">
+    <div class="btn-group btn-group-sm w-100">
+      <button class="btn btn-outline-primary" (click)="onEdit()">
+        <i class="fas fa-edit"></i> Modifier
+      </button>
+      <button class="btn btn-outline-danger" (click)="onDelete()">
+        <i class="fas fa-trash"></i> Supprimer
+      </button>
+    </div>
+  </div>
+</div>
