@@ -1,1 +1,147 @@
-<p>user-form works!</p>
+<div class="user-form-container">
+  <!-- En-tête du formulaire -->
+  <div class="form-header">
+    <button class="back-button" (click)="onCancel()">
+      <span class="back-icon">←</span> Retour
+    </button>
+    <h1>{{ isEditMode ? 'Modifier l\'utilisateur' : 'Créer un nouvel utilisateur' }}</h1>
+  </div>
+
+  <!-- Formulaire -->
+  <form (ngSubmit)="onSubmit()" #userForm="ngForm" class="user-form">
+    
+    <!-- Section Informations de base -->
+    <div class="form-section">
+      <h2>Informations de base</h2>
+      
+      <div class="form-group">
+        <label for="name">Nom complet *</label>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          [(ngModel)]="formUser.name" 
+          required
+          [class]="getFieldClass(formUser.name)"
+          placeholder="Ex: John Doe">
+        <div class="validation-message" *ngIf="!formUser.name">
+          Le nom est requis
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="formUser.email" 
+            required
+            [class]="getFieldClass(formUser.email)"
+            placeholder="Ex: john@example.com">
+          <div class="validation-message" *ngIf="!formUser.email">
+            L'email est requis
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Téléphone *</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            name="phone" 
+            [(ngModel)]="formUser.phone" 
+            required
+            [class]="getFieldClass(formUser.phone)"
+            placeholder="Ex: +1234567890">
+          <div class="validation-message" *ngIf="!formUser.phone">
+            Le téléphone est requis
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="role">Rôle *</label>
+          <select 
+            id="role" 
+            name="role" 
+            [(ngModel)]="formUser.role" 
+            required
+            [class]="getFieldClass(formUser.role)">
+            <option value="" disabled>Sélectionner un rôle</option>
+            <option *ngFor="let role of roles" [value]="role.value">
+              {{ role.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Statut *</label>
+          <select 
+            id="status" 
+            name="status" 
+            [(ngModel)]="formUser.status" 
+            required
+            [class]="getFieldClass(formUser.status)">
+            <option *ngFor="let status of statuses" [value]="status.value">
+              {{ status.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Informations supplémentaires -->
+    <div class="form-section">
+      <h2>Informations supplémentaires</h2>
+      
+      <div class="form-group">
+        <label for="address">Adresse</label>
+        <textarea 
+          id="address" 
+          name="address" 
+          [(ngModel)]="formUser.address"
+          rows="3"
+          placeholder="Adresse complète..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="familyId">ID Famille</label>
+          <input 
+            type="number" 
+            id="familyId" 
+            name="familyId" 
+            [(ngModel)]="formUser.familyId"
+            placeholder="Ex: 101">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea 
+          id="notes" 
+          name="notes" 
+          [(ngModel)]="formUser.notes"
+          rows="4"
+          placeholder="Notes supplémentaires..."></textarea>
+      </div>
+    </div>
+
+    <!-- Actions du formulaire -->
+    <div class="form-actions">
+      <button type="button" class="btn cancel-btn" (click)="onCancel()">
+        Annuler
+      </button>
+      <button type="submit" class="btn submit-btn" [disabled]="!isFormValid()">
+        {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+      </button>
+    </div>
+
+    <div class="form-help">
+      <p>* Champs obligatoires</p>
+    </div>
+  </form>
+</div>

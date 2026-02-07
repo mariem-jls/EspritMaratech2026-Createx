@@ -1,351 +1,273 @@
-/* src/app/features/users/components/user-list/user-list.component.css */
-
-/* ===== RÉINITIALISATION & BASE ===== */
+/* =====================================================
+   🎨 DESIGN SYSTEM (tokens globaux)
+===================================================== */
 :host {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  color: #333;
-  line-height: 1.5;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+
+  --danger: #dc2626;
+  --danger-light: #fef2f2;
+
+  --warning: #d97706;
+  --success: #059669;
+
+  --border: #e5e7eb;
+  --bg-soft: #f9fafb;
+  --bg-hover: #f3f4f6;
+
+  --text-dark: #111827;
+  --text-muted: #6b7280;
+
+  --radius: 12px;
+  --transition: 0.25s ease;
+
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text-dark);
 }
 
-/* ===== CONTAINER ===== */
+
+/* =====================================================
+   📦 CONTAINER
+===================================================== */
 .container.mt-4 {
-  padding: 24px;
+  padding: 32px;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: auto;
 }
 
-/* ===== HEADER ===== */
+
+/* =====================================================
+   🧾 HEADER
+===================================================== */
 .d-flex.justify-content-between.align-items-center.mb-4 {
-  margin-bottom: 32px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
 }
 
-h2.mb-0 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 0;
+h2 {
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.3px;
 }
 
-/* ===== BOUTON AJOUTER ===== */
+
+/* =====================================================
+   🔵 PRIMARY BUTTON
+===================================================== */
 .btn-primary {
-  background-color: #0066cc;
-  color: white;
+  background: var(--primary);
   border: none;
+  border-radius: var(--radius);
   padding: 10px 20px;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600;
+
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+
+  transition: var(--transition);
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
 }
 
 .btn-primary:hover {
-  background-color: #0052a3;
+  background: var(--primary-hover);
+  transform: translateY(-2px);
 }
 
-/* ===== CARTE FILTRES ===== */
-.card.mb-4.shadow-sm {
+
+/* =====================================================
+   🪟 CARD
+===================================================== */
+.card {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
   background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 .card-body {
-  padding: 20px !important;
+  padding: 22px !important;
 }
 
-/* ===== FORMULAIRES ===== */
-.input-group {
-  border: 1px solid #d1d1d1;
-  border-radius: 6px;
-  overflow: hidden;
-}
 
-.input-group:focus-within {
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-}
-
-.input-group-text.bg-light {
-  background-color: #f8f9fa;
-  border: none;
-  padding: 10px 12px;
-}
-
-.form-control {
-  border: none;
-  padding: 10px 12px;
-  font-size: 14px;
-  width: 100%;
-}
-
-.form-control:focus {
-  outline: none;
-  box-shadow: none;
-}
-
+/* =====================================================
+   🧩 INPUTS
+===================================================== */
+.form-control,
 .form-select {
-  border: 1px solid #d1d1d1;
-  border-radius: 6px;
-  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  transition: var(--transition);
   font-size: 14px;
-  width: 100%;
-  background-color: white;
 }
 
+.form-control:focus,
 .form-select:focus {
-  border-color: #0066cc;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-/* ===== SWITCH ===== */
-.form-check.form-switch {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
-.form-check-input {
-  width: 48px !important;
-  height: 24px !important;
-  cursor: pointer;
-}
-
-.form-check-label {
-  font-size: 14px;
-  color: #555;
-  cursor: pointer;
-}
-
-/* ===== BADGE COMPTEUR ===== */
-.badge.bg-info.fs-6 {
-  background-color: #0066cc !important;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 16px;
-  font-size: 14px !important;
-  font-weight: 600;
-}
-
-/* ===== TABLEAU ===== */
-.table-responsive.shadow-sm.rounded-3 {
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.table.table-hover.align-middle {
-  margin-bottom: 0;
-  width: 100%;
-}
-
-.table-light {
-  background-color: #f8f9fa;
-}
-
-.table-light th {
-  padding: 16px 20px;
-  font-weight: 600;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #555;
-  border-bottom: 2px solid #e0e0e0;
-  text-align: left;
-}
-
-th.text-center {
-  text-align: center;
-}
-
-/* ===== LIGNES ===== */
-.table > tbody > tr {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.table > tbody > tr:hover {
-  background-color: #f8f9fa;
-}
-
-.table > :not(caption) > * > * {
-  padding: 16px 20px;
-  vertical-align: middle;
-}
-
-/* ===== TEXTE ===== */
-strong {
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-small.text-muted {
-  color: #666;
-  font-size: 13px;
-}
-
-.text-nowrap {
-  white-space: nowrap;
-}
-
-/* ===== BADGES ===== */
+/* =====================================================
+   🏷️ BADGES
+===================================================== */
 .badge {
-  padding: 4px 10px !important;
-  border-radius: 4px;
+  border-radius: 999px;
+  padding: 5px 14px !important;
+  font-weight: 600;
   font-size: 12px !important;
-  font-weight: 600 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
 }
 
-/* Badges de rôle */
+/* roles / status */
 .bg-danger {
-  background-color: #fef2f2 !important;
-  color: #991b1b !important;
-}
-
-.bg-warning.text-dark {
-  background-color: #fef3c7 !important;
-  color: #92400e !important;
+  background: var(--danger-light) !important;
+  color: var(--danger) !important;
 }
 
 .bg-success {
-  background-color: #d1fae5 !important;
-  color: #065f46 !important;
+  background: #d1fae5 !important;
+  color: var(--success) !important;
 }
 
-/* Badges de statut */
-span[class*="badge bg-"] {
-  cursor: pointer;
-  transition: opacity 0.2s;
+.bg-warning.text-dark {
+  background: #fef3c7 !important;
+  color: var(--warning) !important;
 }
 
-span[class*="badge bg-"]:hover {
-  opacity: 0.9;
+
+/* =====================================================
+   📊 TABLE
+===================================================== */
+.table-responsive {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: white;
 }
 
-.badge.bg-secondary {
-  background-color: #f3f4f6 !important;
-  color: #374151 !important;
+.table {
+  margin: 0;
 }
 
-/* ===== BOUTONS D'ACTION ===== */
-.d-flex.gap-2.justify-content-center {
-  gap: 8px !important;
+.table thead {
+  background: var(--bg-soft);
 }
 
-.btn-sm {
-  padding: 6px 12px !important;
-  border-radius: 4px !important;
-  font-size: 12px !important;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-outline-primary {
-  color: #0066cc;
-  border-color: #0066cc;
-  background: transparent;
-}
-
-.btn-outline-primary:hover {
-  background-color: #0066cc;
-  color: white;
-}
-
-.btn-outline-warning {
-  color: #d97706;
-  border-color: #d97706;
-  background: transparent;
-}
-
-.btn-outline-warning:hover {
-  background-color: #d97706;
-  color: white;
-}
-
-.btn-outline-danger {
-  color: #dc2626;
-  border-color: #dc2626;
-  background: transparent;
-}
-
-.btn-outline-danger:hover {
-  background-color: #dc2626;
-  color: white;
-}
-
-/* ===== ÉTAT VIDE ===== */
-tr:has(td.text-center.py-5) {
-  border: none;
-}
-
-.text-center.py-5 {
-  padding: 48px 24px !important;
-}
-
-.fa-users.fa-3x.mb-3.opacity-50 {
-  font-size: 48px;
-  color: #d1d5db;
-  margin-bottom: 16px;
-}
-
-h5.mb-2 {
-  font-size: 18px;
+.table th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   font-weight: 600;
-  color: #374151;
-  margin-bottom: 8px;
+  color: var(--text-muted);
+  padding: 16px;
 }
 
-p.mb-0 {
-  color: #6b7280;
-  margin-bottom: 20px;
+.table td {
+  padding: 16px;
+  vertical-align: middle;
 }
 
-/* ===== RESPONSIVE ===== */
+.table tbody tr {
+  transition: var(--transition);
+}
+
+.table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+
+/* =====================================================
+   🎯 ACTION BUTTONS
+===================================================== */
+.btn-sm {
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 6px 12px;
+  transition: var(--transition);
+}
+
+/* view */
+.btn-outline-primary {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.btn-outline-primary:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* edit */
+.btn-outline-warning {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+.btn-outline-warning:hover {
+  background: var(--warning);
+  color: white;
+}
+
+/* delete */
+.btn-outline-danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.btn-outline-danger:hover {
+  background: var(--danger);
+  color: white;
+  transform: scale(1.08);
+}
+
+
+/* =====================================================
+   🫧 EMPTY STATE
+===================================================== */
+.text-center.py-5 {
+  padding: 70px 20px !important;
+  color: var(--text-muted);
+}
+
+.fa-users {
+  font-size: 54px;
+  color: #d1d5db;
+  margin-bottom: 10px;
+}
+
+
+/* =====================================================
+   ✨ MICRO-INTERACTIONS (UX)
+===================================================== */
+button:active {
+  transform: scale(0.97);
+}
+
+.badge:hover {
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   📱 RESPONSIVE
+===================================================== */
 @media (max-width: 768px) {
+
   .container.mt-4 {
     padding: 16px;
   }
-  
+
+  .table {
+    min-width: 760px;
+  }
+
   .d-flex.justify-content-between.align-items-center.mb-4 {
     flex-direction: column;
     gap: 16px;
     align-items: flex-start;
-  }
-  
-  h2.mb-0 {
-    font-size: 24px;
-  }
-  
-  .row.g-3.align-items-center {
-    flex-direction: column;
-    gap: 16px !important;
-  }
-  
-  .col-md-4, .col-md-3, .col-md-2 {
-    width: 100%;
-  }
-  
-  .table-responsive {
-    overflow-x: auto;
-  }
-  
-  .table {
-    min-width: 800px;
-  }
-  
-  .d-flex.gap-2.justify-content-center {
-    flex-wrap: wrap;
   }
 }
