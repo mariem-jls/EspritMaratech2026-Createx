@@ -1,0 +1,293 @@
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <h1 class="header-title">
+        <i class="fas fa-tachometer-alt mr-3"></i>
+        Tableau de Bord
+      </h1>
+      <p class="header-subtitle">Bienvenue sur le tableau de bord Omnia Charity Tracking</p>
+    </div>
+    <div class="header-actions">
+      <div class="date-display">
+        <i class="fas fa-calendar-alt mr-2"></i>
+        {{ currentDate | date:'fullDate' }}
+      </div>
+      <button class="btn-refresh" (click)="refreshData()">
+        <i class="fas fa-sync-alt"></i>
+        Actualiser
+      </button>
+    </div>
+  </header>
+
+  <!-- Statistics Grid -->
+  <div class="statistics-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <app-stats-card *ngFor="let stat of statistics" [stat]="stat"></app-stats-card>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="fas fa-chart-line mr-2"></i>
+        Analytics & Rapports
+      </h2>
+      <div class="time-filter">
+        <select class="filter-select" (change)="onTimeFilterChange($event)">
+          <option value="monthly">Mensuel</option>
+          <option value="quarterly">Trimestriel</option>
+          <option value="yearly">Annuel</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <!-- Monthly Donations Chart -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">
+            <i class="fas fa-donate mr-2"></i>
+            Dons Mensuels
+          </h3>
+          <span class="chart-total">Total: 125,430 DT</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="monthlyDonationsChart"></canvas>
+        </div>
+        <div class="chart-footer">
+          <div class="trend-indicator positive">
+            <i class="fas fa-arrow-up mr-1"></i>
+            +12.5% vs mois dernier
+          </div>
+        </div>
+      </div>
+
+      <!-- Aid Distribution Chart -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">
+            <i class="fas fa-box-open mr-2"></i>
+            Distribution d'Aide
+          </h3>
+          <span class="chart-total">Total: 892 Colis</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="aidDistributionChart"></canvas>
+        </div>
+        <div class="chart-footer">
+          <div class="distribution-legend">
+            <div class="legend-item" *ngFor="let item of distributionItems">
+              <span class="legend-color" [style.background]="item.color"></span>
+              <span class="legend-label">{{ item.label }}: {{ item.value }}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="main-content">
+    <!-- Left Column: Recent Activities -->
+    <div class="content-column left-column">
+      <div class="activity-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-history mr-2"></i>
+            Activités Récentes
+          </h3>
+          <a [routerLink]="['/activities']" class="view-all-link">
+            Voir tout <i class="fas fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+        <app-recent-activities></app-recent-activities>
+      </div>
+
+      <!-- Recent Families -->
+      <div class="recent-families-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-home mr-2"></i>
+            Familles Récentes
+          </h3>
+        </div>
+        <div class="families-list">
+          <div class="family-item" *ngFor="let family of recentFamilies">
+            <div class="family-avatar">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="family-info">
+              <h4 class="family-name">{{ family.name }}</h4>
+              <p class="family-details">{{ family.members }} membres • {{ family.location }}</p>
+              <div class="family-status" [ngClass]="family.status">
+                {{ family.status === 'active' ? 'Active' : 'En attente' }}
+              </div>
+            </div>
+            <div class="family-action">
+              <button class="btn-view">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Quick Actions & Events -->
+    <div class="content-column right-column">
+      <!-- Quick Actions -->
+      <div class="quick-actions-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-bolt mr-2"></i>
+            Actions Rapides
+          </h3>
+        </div>
+        <div class="actions-grid">
+          <a [routerLink]="['/families/new']" class="action-item primary">
+            <div class="action-icon">
+              <i class="fas fa-plus-circle"></i>
+            </div>
+            <div class="action-content">
+              <h4 class="action-title">Ajouter Famille</h4>
+              <p class="action-desc">Nouvelle famille</p>
+            </div>
+          </a>
+
+          <a [routerLink]="['/donations/new']" class="action-item success">
+            <div class="action-icon">
+              <i class="fas fa-donate"></i>
+            </div>
+            <div class="action-content">
+              <h4 class="action-title">Enregistrer Don</h4>
+              <p class="action-desc">Nouveau don</p>
+            </div>
+          </a>
+
+          <a [routerLink]="['/aid/distribute']" class="action-item warning">
+            <div class="action-icon">
+              <i class="fas fa-box-open"></i>
+            </div>
+            <div class="action-content">
+              <h4 class="action-title">Distribuer Aide</h4>
+              <p class="action-desc">Colis alimentaires</p>
+            </div>
+          </a>
+
+          <a [routerLink]="['/reports']" class="action-item info">
+            <div class="action-icon">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="action-content">
+              <h4 class="action-title">Générer Rapport</h4>
+              <p class="action-desc">Rapport mensuel</p>
+            </div>
+          </a>
+
+          <a [routerLink]="['/volunteers']" class="action-item secondary">
+            <div class="action-icon">
+              <i class="fas fa-hands-helping"></i>
+            </div>
+            <div class="action-content">
+              <h4 class="action-title">Gérer Bénévoles</h4>
+              <p class="action-desc">Équipe bénévole</p>
+            </div>
+          </a>
+
+          <a [routerLink]="['/inventory']" class="action-item dark">
+            <div class="action-icon">
+              <i class="fas fa-warehouse"></i>
+            </div>
+            <div class="action-content">
+              <h4 class="action-title">Inventaire</h4>
+              <p class="action-desc">Gestion stock</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Upcoming Events -->
+      <div class="events-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-calendar-check mr-2"></i>
+            Événements à Venir
+          </h3>
+          <a [routerLink]="['/calendar']" class="calendar-link">
+            <i class="fas fa-calendar-alt"></i>
+          </a>
+        </div>
+        <div class="events-list">
+          <div class="event-item" *ngFor="let event of upcomingEvents">
+            <div class="event-date">
+              <div class="event-day">{{ event.date | date:'dd' }}</div>
+              <div class="event-month">{{ event.date | date:'MMM' }}</div>
+            </div>
+            <div class="event-details">
+              <h4 class="event-title">{{ event.title }}</h4>
+              <p class="event-time">
+                <i class="far fa-clock mr-1"></i>
+                {{ event.time }}
+              </p>
+              <p class="event-location">
+                <i class="fas fa-map-marker-alt mr-1"></i>
+                {{ event.location }}
+              </p>
+            </div>
+            <div class="event-status" [ngClass]="event.status">
+              {{ event.status === 'confirmed' ? 'Confirmé' : 'Planifié' }}
+            </div>
+          </div>
+        </div>
+        <div class="events-footer">
+          <button class="btn-add-event">
+            <i class="fas fa-plus mr-2"></i>
+            Ajouter Événement
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="quick-stats-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-chart-pie mr-2"></i>
+            Statistiques Rapides
+          </h3>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value">248</div>
+            <div class="stat-label">Familles</div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i> 8%
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">56</div>
+            <div class="stat-label">Bénévoles</div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i> 12%
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">89%</div>
+            <div class="stat-label">Satisfaction</div>
+            <div class="stat-trend neutral">
+              <i class="fas fa-minus"></i> 2%
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">24h</div>
+            <div class="stat-label">Réponse</div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i> 15%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

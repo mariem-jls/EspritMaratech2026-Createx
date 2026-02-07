@@ -1,0 +1,102 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Logo -->
+    <div class="logo-section">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+      </div>
+      <h1>Omnia Charity</h1>
+      <p>Gestion des familles nécessiteuses</p>
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Error Alert -->
+      <div *ngIf="error" class="alert-error">
+        <span>{{ error }}</span>
+        <button type="button" (click)="error = ''">&times;</button>
+      </div>
+
+      <!-- Email Input -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="admin@omnia.tn"
+          [class.error]="submitted && f['email'].errors"
+        />
+        <div *ngIf="submitted && f['email'].errors" class="error-text">
+          {{ f['email'].errors['required'] ? 'Email requis' : 'Email invalide' }}
+        </div>
+      </div>
+
+      <!-- Password Input -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="password-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            placeholder="••••••••"
+            [class.error]="submitted && f['password'].errors"
+          />
+          <button 
+            type="button" 
+            class="toggle-password"
+            (click)="showPassword = !showPassword"
+          >
+            {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        <div *ngIf="submitted && f['password'].errors" class="error-text">
+          {{ f['password'].errors['required'] ? 'Mot de passe requis' : 'Minimum 6 caractères' }}
+        </div>
+      </div>
+
+      <!-- Remember & Forgot -->
+      <div class="form-options">
+        <label class="checkbox">
+          <input type="checkbox" />
+          <span>Se souvenir</span>
+        </label>
+        <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn-submit" [disabled]="loading">
+        {{ loading ? 'Connexion...' : 'Se connecter' }}
+      </button>
+
+      <!-- Quick Login (Demo) -->
+      <div class="quick-login" *ngIf="!loading">
+        <p class="demo-label">Accès démo</p>
+        <div class="quick-buttons">
+          <button
+            type="button"
+            class="quick-btn"
+            (click)="quickLogin('admin@omnia.tn', 'admin123')"
+          >
+            👑 Admin
+          </button>
+          <button
+            type="button"
+            class="quick-btn"
+            (click)="quickLogin('manager@omnia.tn', 'manager123')"
+          >
+            👨‍💼 Manager
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2024 Omnia Charity</p>
+    </div>
+  </div>
+</div>

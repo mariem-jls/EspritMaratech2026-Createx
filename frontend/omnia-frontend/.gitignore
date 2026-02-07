@@ -1,17 +1,38 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
-# Compiled output
+# ==================== ANGULAR ====================
 /dist
 /tmp
 /out-tsc
 /bazel-out
-
-# Node
 /node_modules
 npm-debug.log
 yarn-error.log
 
-# IDEs and editors
+# ==================== SPRING BOOT ====================
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/logs/
+backend/.settings/
+backend/.classpath
+backend/.project
+backend/bin/
+backend/*.class
+
+# Maven
+backend/pom.xml.tag
+backend/pom.xml.releaseBackup
+backend/pom.xml.versionsBackup
+backend/pom.xml.next
+backend/release.properties
+backend/dependency-reduced-pom.xml
+backend/buildNumber.properties
+backend/.mvn/timing.properties
+
+# ==================== IDE ====================
 .idea/
 .project
 .classpath
@@ -28,7 +49,18 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
-# Miscellaneous
+# ==================== ENVIRONNEMENT ====================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ==================== SYSTÈME ====================
+.DS_Store
+Thumbs.db
+
+# ==================== DIVERS ====================
 /.angular/cache
 .sass-cache/
 /connect.lock
@@ -36,7 +68,7 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-
-# System files
-.DS_Store
-Thumbs.db
+*.log
+*.sql
+*.sqlite
+*.db
