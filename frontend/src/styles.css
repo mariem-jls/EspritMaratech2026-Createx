@@ -1,1 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ===== VARIABLES CSS GLOBALES ===== */
+:root {
+  /* Couleurs principales */
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --primary-light: #5dade2;
+  --secondary: #6c757d;
+  --secondary-dark: #5a6268;
+  --success: #27ae60;
+  --danger: #e74c3c;
+  --warning: #f39c12;
+  --info: #3498db;
+  
+  /* Couleurs de fond */
+  --bg-white: #ffffff;
+  --bg-light: #f8f9fa;
+  --bg-dark: #2c3e50;
+  
+  /* Couleurs de texte */
+  --text-dark: #2c3e50;
+  --text-muted: #6c757d;
+  --text-light: #95a5a6;
+  
+  /* Bordures */
+  --border-color: #dee2e6;
+  --border-radius: 8px;
+  --border-radius-sm: 6px;
+  --border-radius-lg: 12px;
+  
+  /* Ombres */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.12);
+  
+  /* Espacements */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.5rem;
+  --spacing-6: 2rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* ===== RESET ET STYLES GÉNÉRAUX ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ===== UTILITAIRES TRÈS GÉNÉRAUX ===== */
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* ===== POLICES ICÔNES (si vous utilisez Font Awesome) ===== */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');

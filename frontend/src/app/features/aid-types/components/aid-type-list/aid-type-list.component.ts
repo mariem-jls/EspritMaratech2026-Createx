@@ -8,7 +8,7 @@ import { AidTypeService } from '../../services/aid-type.service';
 
 @Component({
   selector: 'app-aid-type-list',
-  standalone: false, // Important pour les modules traditionnels
+  standalone: false, // ✅ Correct pour les modules traditionnels
   templateUrl: './aid-type-list.component.html',
   styleUrls: ['./aid-type-list.component.css']
 })
@@ -61,6 +61,5 @@ export class AidTypeListComponent implements OnInit {
   get inactiveAidTypes(): AidType[] {
     return this.aidTypes.filter(aid => !aid.active);
   }
-
-  
 }
+// ⚠️ SUPPRIMEZ TOUT CE QUI SUIT ! (l'angular.json ne doit pas être ici)

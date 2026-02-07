@@ -28,8 +28,8 @@ export interface AidTypeCreateDto {
   category: AidCategory;
   description?: string;
   unit: string;
-  active?: boolean;
-  defaultQuantity?: number;
+ active: boolean;
+ defaultQuantity?: number;
   icon?: string;
 }
 

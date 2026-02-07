@@ -2,10 +2,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// Components (à créer)
+
 import { AidTypeListComponent } from './components/aid-type-list/aid-type-list.component';
 import { AidTypeFormComponent } from './components/aid-type-form/aid-type-form.component';
-
 const routes: Routes = [
   {
     path: '', // Chemin relatif: /aid-types
