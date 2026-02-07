@@ -8,7 +8,7 @@ import { Chart, registerables } from 'chart.js';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './dashboard-home.component.html',
-  styleUrls: ['./dashboard-home.component.css']
+  styleUrls: ['./dashboard-home.component.css']  // CSS seulement ici
 })
 export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy {
   // Données du dashboard
@@ -38,14 +38,14 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     },
     {
       title: 'Réunion des bénévoles',
-      date: new Date(Date.now() + 86400000), // Demain
+      date: new Date(Date.now() + 86400000),
       time: '14:30 - 16:00',
       location: 'Siège OMNIA',
       status: 'planned' as 'confirmed' | 'planned'
     },
     {
       title: 'Collecte de fonds mensuelle',
-      date: new Date(Date.now() + 2 * 86400000), // Après-demain
+      date: new Date(Date.now() + 2 * 86400000),
       time: '10:00 - 18:00',
       location: 'Centre-ville',
       status: 'planned' as 'confirmed' | 'planned'
@@ -70,7 +70,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     this.destroyCharts();
   }
 
-  // Méthodes pour formater les dates dans le template
+  // Méthodes pour formater les dates
   getFormattedDate(): string {
     const options: Intl.DateTimeFormatOptions = {
       weekday: 'long',
@@ -105,6 +105,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Créer le gradient une seule fois
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
     gradient.addColorStop(1, 'rgba(59, 130, 246, 0.05)');

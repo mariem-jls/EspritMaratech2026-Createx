@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { AidType, AidTypeCreateDto, AidTypeUpdateDto, AidCategory } from '../models/aid-types.model';
 
 @Injectable({
-  providedIn: 'root' // Ou 'AidTypesModule' si tu veux le limiter au module
+  providedIn: 'root' 
 })
 export class AidTypeService {
-  private apiUrl = 'http://localhost:8081/api/aid-types'; // À adapter
+  private apiUrl = 'http://localhost:8081/api/aid-types'; 
 
   constructor(private http: HttpClient) {}
 
