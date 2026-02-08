@@ -3,6 +3,7 @@ package com.omnia.omnia.Config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,6 +34,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
@@ -42,6 +44,10 @@ public class SecurityConfig {
 
                         // Protected endpoints avec rôles
                         .requestMatchers("/api/admin/**").hasRole("Admin")
+                        .requestMatchers(HttpMethod.GET, "/api/aid-types").hasAnyRole("Admin", "Coordinator", "Volunteer")
+                        .requestMatchers(HttpMethod.POST, "/api/aid-types").hasAnyRole("Admin", "Coordinator")
+                        .requestMatchers(HttpMethod.PUT, "/api/aid-types/**").hasAnyRole("Admin", "Coordinator")
+                        .requestMatchers(HttpMethod.DELETE, "/api/aid-types/**").hasRole("Admin")
                         .requestMatchers("/api/families/**").hasAnyRole("Admin", "Coordinator", "Volunteer")
                         .requestMatchers("/api/visits/**").hasAnyRole("Admin", "Coordinator", "Volunteer")
                         .requestMatchers("/api/dashboard/**").hasAnyRole("Admin", "Coordinator")
